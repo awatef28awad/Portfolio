@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Awatef Awad — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0F1A;
+    --panel: #121A2B;
+    --panel-2: #0F1524;
+    --line: #223047;
+    --text: #EDF1F7;
+    --text-dim: #8FA0B8;
+    --gold: #E3A83B;
+    --teal: #3FC1B0;
+    --coral: #E4636F;
+    --radius: 10px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+  h1,h2,h3,.display{ font-family:'Space Grotesk', sans-serif; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 28px; }
+
+  /* subtle grid backdrop */
+  body{
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 42px 42px;
+  }
+
+  /* NAV */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,15,26,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px; max-width:1120px; margin:0 auto;
+  }
+  .brand{ font-weight:600; font-size:1.05rem; letter-spacing:0.02em; }
+  .brand .dot{ color:var(--gold); }
+  nav ul{ list-style:none; display:flex; gap:28px; }
+  nav a{ text-decoration:none; color:var(--text-dim); font-size:0.9rem; transition:color .15s; }
+  nav a:hover{ color:var(--text); }
+  .nav-cta{
+    border:1px solid var(--line); padding:7px 14px; border-radius:6px;
+    font-size:0.82rem; color:var(--text) !important;
+  }
+  .nav-cta:hover{ border-color:var(--gold); }
+
+  /* HERO */
+  .hero{ padding:88px 0 40px; position:relative; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono',monospace; font-size:0.76rem;
+    color:var(--teal); letter-spacing:0.08em; text-transform:uppercase;
+    border:1px solid var(--line); padding:5px 10px; border-radius:20px;
+    margin-bottom:22px;
+  }
+  .eyebrow .pulse{
+    width:6px; height:6px; border-radius:50%; background:var(--teal);
+    box-shadow:0 0 0 0 rgba(63,193,176,0.6);
+    animation:pulse 1.8s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(63,193,176,0.5); }
+    70%{ box-shadow:0 0 0 8px rgba(63,193,176,0); }
+    100%{ box-shadow:0 0 0 0 rgba(63,193,176,0); }
+  }
+  .hero h1{
+    font-size:clamp(2.3rem, 5vw, 3.6rem);
+    font-weight:700; line-height:1.08; letter-spacing:-0.01em;
+    max-width:820px;
+  }
+  .hero h1 span{ color:var(--gold); }
+  .hero p.lede{
+    margin-top:20px; max-width:600px; color:var(--text-dim); font-size:1.06rem;
+  }
+  .hero-actions{ display:flex; gap:14px; margin-top:32px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:11px 20px; border-radius:6px; font-size:0.9rem; font-weight:500;
+    text-decoration:none; border:1px solid transparent; cursor:pointer;
+  }
+  .btn-primary{ background:var(--gold); color:#131313; }
+  .btn-primary:hover{ background:#f0b850; }
+  .btn-ghost{ border-color:var(--line); color:var(--text); }
+  .btn-ghost:hover{ border-color:var(--text-dim); }
+
+  /* KPI TICKER — signature element: live readout of real project numbers */
+  .ticker-wrap{
+    margin-top:56px; border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--panel); overflow:hidden;
+  }
+  .ticker-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 18px; border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--text-dim);
+    letter-spacing:0.06em; text-transform:uppercase;
+  }
+  .ticker-head .dots span{
+    display:inline-block; width:7px; height:7px; border-radius:50%;
+    background:var(--line); margin-left:5px;
+  }
+  .kpi-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr);
+  }
+  .kpi{
+    padding:22px 18px; border-right:1px solid var(--line);
+  }
+  .kpi:last-child{ border-right:none; }
+  .kpi .val{
+    font-family:'JetBrains Mono', monospace; font-size:1.65rem; font-weight:600;
+    color:var(--text);
+  }
+  .kpi .val small{ font-size:1rem; color:var(--teal); font-weight:500; }
+  .kpi .label{
+    margin-top:6px; font-size:0.78rem; color:var(--text-dim);
+  }
+  @media (max-width:760px){
+    .kpi-grid{ grid-template-columns:repeat(2,1fr); }
+    .kpi:nth-child(2){ border-right:none; }
+  }
+
+  section{ padding:88px 0; border-top:1px solid var(--line); }
+  .section-head{ margin-bottom:44px; display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; }
+  .section-head .tag{
+    font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--gold);
+    letter-spacing:0.08em; text-transform:uppercase;
+  }
+  .section-head h2{ font-size:1.9rem; font-weight:600; }
+  .section-head p{ color:var(--text-dim); max-width:520px; margin-top:8px; }
+
+  /* SKILLS */
+  .skills-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;
+  }
+  .skill-card{ background:var(--panel); padding:26px 24px; }
+  .skill-card h3{ font-size:1rem; margin-bottom:12px; display:flex; align-items:center; gap:10px; }
+  .skill-card h3 .idx{ font-family:'JetBrains Mono',monospace; color:var(--text-dim); font-size:0.78rem; }
+  .skill-card ul{ list-style:none; color:var(--text-dim); font-size:0.88rem; }
+  .skill-card li{ padding:4px 0; position:relative; padding-left:16px; }
+  .skill-card li::before{ content:"—"; position:absolute; left:0; color:var(--teal); }
+  @media (max-width:760px){ .skills-grid{ grid-template-columns:1fr; } }
+
+  /* PROJECTS — record-card treatment */
+  .record{
+    border:1px solid var(--line); border-radius:var(--radius); background:var(--panel);
+    margin-bottom:22px; overflow:hidden;
+  }
+  .record-top{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    padding:14px 22px; border-bottom:1px solid var(--line); background:var(--panel-2);
+  }
+  .record-id{ font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--gold); letter-spacing:0.05em; }
+  .record-domain{
+    font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--teal);
+    border:1px solid rgba(63,193,176,0.35); padding:3px 9px; border-radius:20px;
+  }
+  .record-body{ display:grid; grid-template-columns:1.1fr 0.9fr; }
+  .record-body.no-media{ grid-template-columns:1fr; }
+  .record-media{ border-right:1px solid var(--line); background:#0B111D; display:flex; align-items:center; }
+  .record-media img{ width:100%; height:100%; object-fit:cover; }
+  .record-text{ padding:26px 26px 24px; }
+  .record-text h3{ font-size:1.28rem; margin-bottom:10px; }
+  .record-text p.desc{ color:var(--text-dim); font-size:0.94rem; margin-bottom:16px; }
+  .record-meta{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px 20px;
+    font-size:0.82rem; margin-bottom:16px;
+  }
+  .record-meta div span.k{ display:block; color:var(--text-dim); font-family:'JetBrains Mono',monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:3px; }
+  .record-meta div span.v{ color:var(--text); }
+  .insight{
+    border-left:2px solid var(--gold); padding:10px 14px; background:rgba(227,168,59,0.06);
+    font-size:0.88rem; color:var(--text); margin-bottom:16px; border-radius:0 6px 6px 0;
+  }
+  .insight b{ color:var(--gold); }
+  .record-links{ display:flex; gap:10px; flex-wrap:wrap; }
+  .chip-link{
+    font-size:0.8rem; padding:7px 13px; border:1px solid var(--line); border-radius:6px;
+    text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:var(--text);
+  }
+  .chip-link:hover{ border-color:var(--teal); color:var(--teal); }
+  @media (max-width:760px){
+    .record-body{ grid-template-columns:1fr; }
+    .record-media{ border-right:none; border-bottom:1px solid var(--line); max-height:220px; }
+    .record-meta{ grid-template-columns:1fr 1fr; }
+  }
+
+  /* CONTACT */
+  .contact-panel{
+    border:1px solid var(--line); border-radius:var(--radius); background:var(--panel);
+    padding:44px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px;
+  }
+  .contact-panel h2{ font-size:1.7rem; max-width:420px; }
+  .contact-links{ display:flex; flex-direction:column; gap:10px; }
+  .contact-links a{ text-decoration:none; font-size:0.94rem; display:flex; align-items:center; gap:10px; }
+  .contact-links a .k{ font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--text-dim); width:60px; display:inline-block; }
+  .contact-links a:hover{ color:var(--gold); }
+
+  footer{ padding:32px 0; border-top:1px solid var(--line); }
+  footer .wrap{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
+  footer p{ color:var(--text-dim); font-size:0.8rem; }
+
+  @media (max-width:600px){
+    .hero{ padding-top:70px; }
+    .contact-panel{ padding:28px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="brand">Awatef Awad<span class="dot">.</span></div>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="mailto:awatefsameir28@gmail.com">Say hi</a>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero" style="border:none; padding-bottom:0;">
+    <div class="eyebrow"><span class="pulse"></span> Open to data analyst roles</div>
+    <h1>Turning messy data into decisions —<br><span>dashboards people actually use.</span></h1>
+    <p class="lede">I'm Awatef, a data analyst working across Power BI, Excel, SQL and Python. I clean the messy stuff, model it properly, and build dashboards that surface the one number a stakeholder actually needs.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#work">View projects</a>
+      <a class="btn btn-ghost" href="https://public.tableau.com/app/profile/awatef.awad/vizzes" target="_blank" rel="noopener">Tableau Public profile ↗</a>
+    </div>
+
+    <div class="ticker-wrap">
+      <div class="ticker-head">
+        <span>live_readout.log — pulled from shipped dashboards</span>
+        <span class="dots"><span></span><span></span><span></span></span>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="val">5</div>
+          <div class="label">Dashboards shipped</div>
+        </div>
+        <div class="kpi">
+          <div class="val">417,883</div>
+          <div class="label">Casualty records analyzed (Road Safety)</div>
+        </div>
+        <div class="kpi">
+          <div class="val">1,470</div>
+          <div class="label">Employee records modeled (HR Analytics)</div>
+        </div>
+        <div class="kpi">
+          <div class="val">16.12<small>%</small></div>
+          <div class="label">Attrition rate uncovered</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-head">
+      <span class="tag">01 / stack</span>
+      <div>
+        <h2>Tools I build with</h2>
+        <p>The core toolkit behind every project below — from raw data to a dashboard someone can act on.</p>
+      </div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3><span class="idx">BI</span> Dashboarding</h3>
+        <ul>
+          <li>Power BI (DAX, data modeling, drill-through)</li>
+          <li>Excel (pivot tables, dashboards, formulas)</li>
+          <li>Tableau</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3><span class="idx">DB</span> Data & Querying</h3>
+        <ul>
+          <li>SQL (joins, aggregation, window functions)</li>
+          <li>Data cleaning & transformation</li>
+          <li>Relational data modeling</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3><span class="idx">PY</span> Analysis</h3>
+        <ul>
+          <li>Python (pandas, data wrangling)</li>
+          <li>Exploratory data analysis</li>
+          <li>Reporting & storytelling with data</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="section-head">
+      <span class="tag">02 / projects</span>
+      <div>
+        <h2>Selected work</h2>
+        <p>Five projects, five domains — each one a full pass from raw data to a dashboard built to answer a real question.</p>
+      </div>
+    </div>
+
+    <!-- Road Accident -->
+    <div class="record">
+      <div class="record-top">
+        <span class="record-id">REC-01 · road-safety</span>
+        <span class="record-domain">Public Safety</span>
+      </div>
+      <div class="record-body">
+        <div class="record-media"><img src="assets/road-accident-dashboard.jpg" alt="Road Accident Dashboard in Power BI showing casualty breakdowns"></div>
+        <div class="record-text">
+          <h3>Road Accident Dashboard</h3>
+          <p class="desc">A Power BI dashboard analyzing three years of UK road casualty data, breaking severity, vehicle type, road conditions and time trends down into a single filterable view.</p>
+          <div class="record-meta">
+            <div><span class="k">Tool</span><span class="v">Power BI</span></div>
+            <div><span class="k">Records</span><span class="v">417,883 casualties</span></div>
+            <div><span class="k">Timeframe</span><span class="v">2021 – 2023</span></div>
+            <div><span class="k">Breakdowns</span><span class="v">Vehicle, road type, surface, light</span></div>
+          </div>
+          <div class="insight"><b>Insight —</b> Single carriageways accounted for the largest share of casualties (309.7K), and wet road surfaces stood out as a major severity driver worth flagging to road maintenance planners.</div>
+          <div class="record-links">
+            <a class="chip-link" href="assets/road-accident-dashboard.jpg" target="_blank">View full image ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HR Analytics -->
+    <div class="record">
+      <div class="record-top">
+        <span class="record-id">REC-02 · people-analytics</span>
+        <span class="record-domain">Human Resources</span>
+      </div>
+      <div class="record-body">
+        <div class="record-media"><img src="assets/hr-analytics-dashboard.jpg" alt="HR Analytics Dashboard in Power BI showing attrition breakdowns"></div>
+        <div class="record-text">
+          <h3>HR Analytics Dashboard</h3>
+          <p class="desc">An attrition-focused workforce dashboard, segmenting 1,470 employee records by department, age band, education field and job satisfaction to find where the company was actually losing people.</p>
+          <div class="record-meta">
+            <div><span class="k">Tool</span><span class="v">Power BI</span></div>
+            <div><span class="k">Records</span><span class="v">1,470 employees</span></div>
+            <div><span class="k">Attrition rate</span><span class="v">16.12% (237 employees)</span></div>
+            <div><span class="k">Breakdowns</span><span class="v">Dept, age, gender, education</span></div>
+          </div>
+          <div class="insight"><b>Insight —</b> Under-25 and 25–34 age bands showed the sharpest attrition (52–62%), pointing to early-career retention — not senior turnover — as the real risk area.</div>
+          <div class="record-links">
+            <a class="chip-link" href="assets/hr-analytics-dashboard.jpg" target="_blank">View full image ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cafe Sales -->
+    <div class="record">
+      <div class="record-top">
+        <span class="record-id">REC-03 · retail-fb</span>
+        <span class="record-domain">Retail / F&amp;B</span>
+      </div>
+      <div class="record-body no-media">
+        <div class="record-text">
+          <h3>Cafe Sales Dashboard</h3>
+          <p class="desc">Built from a deliberately messy raw transactions table (<code>dirty_cafe_sales</code>) — cleaned, modeled and turned into a sales dashboard tracking revenue, order volume and item mix over time.</p>
+          <div class="record-meta">
+            <div><span class="k">Tool</span><span class="v">Power BI</span></div>
+            <div><span class="k">Source</span><span class="v">dirty_cafe_sales (raw)</span></div>
+            <div><span class="k">Metrics</span><span class="v">Total spent, quantity, order count</span></div>
+            <div><span class="k">Breakdowns</span><span class="v">Item, location, payment method, month</span></div>
+          </div>
+          <div class="insight"><b>Focus —</b> Most of the work here was upstream: cleaning inconsistent entries before they ever hit a visual, so the KPI cards and monthly trend line could be trusted at a glance.</div>
+          <div class="record-links">
+            <a class="chip-link" href="assets/CafeSales_Dashboard.pbix" download>Download .pbix ↓</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AdventureWorks -->
+    <div class="record">
+      <div class="record-top">
+        <span class="record-id">REC-04 · finance-fpna</span>
+        <span class="record-domain">Finance</span>
+      </div>
+      <div class="record-body no-media">
+        <div class="record-text">
+          <h3>AdventureWorks Finance Dashboard</h3>
+          <p class="desc">A budget-vs-actual FP&amp;A dashboard built on the AdventureWorks finance model, comparing planned and actual spend across departments and organizations with a full variance bridge.</p>
+          <div class="record-meta">
+            <div><span class="k">Tool</span><span class="v">Power BI</span></div>
+            <div><span class="k">Tables</span><span class="v">FactFinance + 4 dimension tables</span></div>
+            <div><span class="k">Metrics</span><span class="v">Actual, budget, variance, variance %</span></div>
+            <div><span class="k">Visuals</span><span class="v">Waterfall, treemap, pivot table</span></div>
+          </div>
+          <div class="insight"><b>Focus —</b> Used a waterfall chart to bridge budget-to-actual variance by department, and a treemap to surface which departments were driving the biggest swings — with slicers for scenario, org and date.</div>
+          <div class="record-links">
+            <a class="chip-link" href="assets/AdventureWorks_Dashboard.pbix" download>Download .pbix ↓</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gym -->
+    <div class="record">
+      <div class="record-top">
+        <span class="record-id">REC-05 · fitness-ops</span>
+        <span class="record-domain">Fitness / Membership</span>
+      </div>
+      <div class="record-body no-media">
+        <div class="record-text">
+          <h3>Gym Management Dashboard</h3>
+          <p class="desc">A membership and operations dashboard modeled across seven related tables — members, attendance, trainers, equipment and subscriptions — delivered as both an Excel workbook and a Power BI report.</p>
+          <div class="record-meta">
+            <div><span class="k">Tools</span><span class="v">Excel &amp; Power BI</span></div>
+            <div><span class="k">Tables</span><span class="v">Members, Attendance, Trainers, Equipment +3</span></div>
+            <div><span class="k">Metrics</span><span class="v">Revenue, attendance count, equipment cost</span></div>
+            <div><span class="k">Breakdowns</span><span class="v">Plan, gender, weekday pattern</span></div>
+          </div>
+          <div class="insight"><b>Focus —</b> Same relational data model, two deliverables — a pivot-table Excel version for quick internal review, and a Power BI version for interactive filtering by plan and weekday.</div>
+          <div class="record-links">
+            <a class="chip-link" href="assets/Gym_Dashboard.pbix" download>Download .pbix ↓</a>
+            <a class="chip-link" href="assets/Gym_Excel_Dashboard.xlsx" download>Download .xlsx ↓</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-head">
+      <span class="tag">03 / contact</span>
+      <div>
+        <h2>Let's talk</h2>
+      </div>
+    </div>
+    <div class="contact-panel">
+      <h2>Looking for a data analyst who ships clean, decision-ready dashboards? Let's talk.</h2>
+      <div class="contact-links">
+        <a href="mailto:awatefsameir28@gmail.com"><span class="k">EMAIL</span> awatefsameir28@gmail.com</a>
+        <a href="https://www.linkedin.com/in/awatef-awad-5678b11b4" target="_blank" rel="noopener"><span class="k">LINKEDIN</span> /in/awatef-awad</a>
+        <a href="https://public.tableau.com/app/profile/awatef.awad/vizzes" target="_blank" rel="noopener"><span class="k">TABLEAU</span> public.tableau.com/awatef.awad</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Awatef Awad — Data Analyst</p>
+    <p>Built with Power BI, Excel &amp; SQL in mind.</p>
+  </div>
+</footer>
+
+</body>
+</html>
